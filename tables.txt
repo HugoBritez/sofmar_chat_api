@@ -1,0 +1,27 @@
+CREATE TABLE IF NOT EXISTS chat_archivos (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `file_name` VARCHAR(255),
+  `file_url` VARCHAR(255),
+  `file_message_id` BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS chat_mensajes (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `me_contenido` VARCHAR(1000) NOT NULL,
+  `me_send_at` DATETIME NOT NULL,
+  `me_owner_id` BIGINT,
+  `me_remitente` BIGINT
+);
+
+CREATE TABLE IF NOT EXISTS chat_usuarios (
+  `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `us_nombre` VARCHAR(255) NOT NULL,
+  `us_username` VARCHAR(255) NOT NULL,
+  `us_password` VARCHAR(255) NOT NULL,
+  `us_status` BIGINT NOT NULL,
+  `us_created_at` DATETIME NOT NULL,
+  `us_avatar_url` VARCHAR(255)
+);
+
+ALTER TABLE chat_archivos ADD CONSTRAINT files_file_message_id_fk FOREIGN KEY (`file_message_id`) REFERENCES chat_mensajes (`id`);
+ALTER TABLE chat_mensajes ADD CONSTRAINT messages_me_owner_id_fk FOREIGN KEY (`me_owner_id`) REFERENCES chat_usuarios (`id`);

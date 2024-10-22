@@ -1,5 +1,6 @@
 import express from 'express';
-import http from 'http';
+import https from 'https';
+import fs from 'fs';
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
@@ -12,7 +13,10 @@ import { pool } from './services/dbService.js';
 
 
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('private.key'),
+  cert: fs.readFileSync('certificate.crt')
+}, app);
 const io = new Server(server, {
   cors: {
     origin: '*',
